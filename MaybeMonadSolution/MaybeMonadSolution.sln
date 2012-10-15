@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaybeMonad", "MaybeMonad\MaybeMonad.csproj", "{A702178F-2478-442F-BBAF-8353C9645AC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaybeMonad.Test", "MaybeMonad.Test\MaybeMonad.Test.csproj", "{0AC25B1A-BD2C-44A4-ACCD-1453BCAE1622}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A702178F-2478-442F-BBAF-8353C9645AC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A702178F-2478-442F-BBAF-8353C9645AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A702178F-2478-442F-BBAF-8353C9645AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A702178F-2478-442F-BBAF-8353C9645AC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AC25B1A-BD2C-44A4-ACCD-1453BCAE1622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AC25B1A-BD2C-44A4-ACCD-1453BCAE1622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AC25B1A-BD2C-44A4-ACCD-1453BCAE1622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AC25B1A-BD2C-44A4-ACCD-1453BCAE1622}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
