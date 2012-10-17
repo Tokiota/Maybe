@@ -8,5 +8,7 @@
     public class Direccion
     {
         public string CodigoPostal { get; set; }
+
+        public string CodigoPais { get; set; }
     }
 }

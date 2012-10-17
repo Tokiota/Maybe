@@ -73,6 +73,7 @@ namespace MaybeMonad.Test
             Assert.IsTrue(result.HasValue);
             Assert.AreEqual(result.Value,"Daniel");
         }
+
         [TestMethod]
         public void Cuando_la_raiz_no_es_nula_y_se_pide_por_un_valor_existente_O_default()
         {
@@ -88,5 +89,128 @@ namespace MaybeMonad.Test
             Assert.AreEqual(result.Value, "Daniel");
         }
 
+        [TestMethod]
+        public void Cuando_la_raiz_no_es_nula_y_hay_una_condicion_que_sale_por_si()
+        {
+            cliente = new Cliente
+                {
+                    Nombre = "Daniel",
+                    Direccion = new Direccion
+                        {
+                            CodigoPostal = "08401",
+                            CodigoPais = "ES"
+                        }
+                };
+
+            bool seEjecuto = false;
+            var result = cliente.ToMaybe()
+                .Select(c => c.Direccion)
+                .If(d =>
+                {
+                    seEjecuto = true;
+                    return EsCodigoPaisEspaña(d);
+                })
+                .SelectOrDefault(d => d.CodigoPostal,()=> "None");
+
+            Assert.AreEqual("08401",result.Value);
+            Assert.IsTrue(seEjecuto);
+
+        }
+
+        [TestMethod]
+        public void Cuando_la_raiz_no_es_nula_y_hay_una_condicion_que_sale_por_no()
+        {
+            cliente = new Cliente
+            {
+                Nombre = "Daniel",
+                Direccion = new Direccion
+                {
+                    CodigoPostal = "08401",
+                    CodigoPais = "PT"
+                }
+            };
+
+            bool seEjecuto = false;
+            var result = cliente.ToMaybe()
+                .Select(c => c.Direccion)
+                .If(d =>
+                {
+                    seEjecuto = true;
+                    return EsCodigoPaisEspaña(d);
+                })
+                .SelectOrDefault(d => d.CodigoPostal, () => "None");
+
+            Assert.AreEqual("None", result.Value);
+            Assert.IsTrue(seEjecuto);
+        }
+
+        [TestMethod]
+        public void Cuando_la_raiz_es_nula_y_hay_una_condicion_sale_por_no()
+        {
+            cliente = new Cliente
+            {
+                Nombre = "Daniel",
+            };
+            bool seEjecuto = false;
+            var result = cliente.ToMaybe()
+                .Select(c => c.Direccion)
+                .If(d=>
+                    {
+                        seEjecuto = true;
+                        return EsCodigoPaisEspaña(d);
+                    })
+                .SelectOrDefault(d => d.CodigoPostal, () => "None");
+
+            Assert.AreEqual("None", result.Value);
+            Assert.IsFalse(seEjecuto);
+
+        }
+        
+        [TestMethod]
+        public void Cuando_la_raiz_no_es_nula_y_executa_una_accion()
+        {
+            cliente = new Cliente
+            {
+                Nombre = "Daniel",
+                Direccion = new Direccion
+                {
+                    CodigoPostal = "08401",
+                    CodigoPais = "PT"
+                }
+            };
+
+            bool seEjecuto = false;
+
+
+            cliente.ToMaybe()
+                .Execute(c =>
+                    {
+                        seEjecuto = true;
+                    });
+
+            Assert.IsTrue(seEjecuto);
+        }
+
+        [TestMethod]
+        public void Cuando_la_raiz_es_nula_y_executa_una_accion()
+        {
+
+            bool seEjecuto = false;
+
+
+            cliente.ToMaybe()
+                .Execute(c =>
+                {
+                    seEjecuto = true;
+                });
+
+            Assert.IsFalse(seEjecuto);
+        }
+
+        
+        private bool EsCodigoPaisEspaña(Direccion direccion)
+        {
+            return direccion.CodigoPais == "ES";
+        }
     }
 }
