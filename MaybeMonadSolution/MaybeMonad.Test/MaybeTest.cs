@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MaybeMonad.Test
 {
-    
+
 
     [TestClass]
     public class MaybeTest
@@ -12,21 +11,27 @@ namespace MaybeMonad.Test
 
         private const string DefaultNombre = "Sin Nombre";
 
-        //[TestInitialize]
-        //public void Antes_de_cada_prueba()
-        //{
-            
-        //}
+        [TestInitialize]
+        public void Antes_de_cada_prueba()
+        {
+            var maybeCliente = cliente.ToMaybe();
+
+            if (maybeCliente.HasValue)
+            {
+            //
+            }
+
+        }
         [TestMethod]
         public void Cuando_usa_tipo_por_referencia()
         {
             var result = cliente.ToMaybe();
 
-            Assert.IsFalse(result.HasValue); 
-            Assert.IsNull(result.Value);
+            Assert.IsFalse(result.HasValue);
             
-                
+            Assert.IsNull(result.Value);
         }
+
         [TestMethod]
         public void Cuando_usa_tipo_por_valor()
         {

@@ -1,22 +1,23 @@
+using System.Diagnostics.Contracts;
+using System;
+
 namespace MaybeMonad
 {
-    using System;
-
     public static class MaybeExtension
     {
         #region Public Methods and Operators
 
-        public static Maybe<TReturnType> Select<TInput, TReturnType>(this Maybe<TInput> input,
-                                                                     Func<TInput, TReturnType> selectEvaluator)
+        public static Maybe<TReturn> Select<TInput, TReturn>(this Maybe<TInput> input,
+                                                             Func<TInput, TReturn> selectEvaluator)
         {
             return input.HasValue
                        ? selectEvaluator(input.Value).ToMaybe()
-                       : Maybe<TReturnType>.Nothing;
+                       : Maybe<TReturn>.Nothing;
         }
 
         public static Maybe<TReturnType> SelectOrDefault<TInput, TReturnType>(this Maybe<TInput> input,
-            Func<TInput, TReturnType> selectEvaluator,
-            Func<TReturnType> selectDefault)
+                                                                              Func<TInput, TReturnType> selectEvaluator,
+                                                                              Func<TReturnType> selectDefault)
         {
             Maybe<TReturnType> result = input.Select(selectEvaluator);
 
@@ -26,7 +27,7 @@ namespace MaybeMonad
         }
 
         public static TReturnType Return<TInput, TReturnType>(this Maybe<TInput> input, Func<TInput, TReturnType> selectEvaluator,
-            Func<TReturnType> selectDefault)
+                                                              Func<TReturnType> selectDefault)
         {
             if(input.HasValue)
             {
@@ -45,9 +46,10 @@ namespace MaybeMonad
                        : new Maybe<T>(input, input != null);
         }
 
-        public static Maybe<T> If<T>(this Maybe<T> input, Func<T,bool> condition )
+        [Pure]
+        public static Maybe<T> If<T>(this Maybe<T> input, Func<T, bool> condition)
         {
-            if (input.HasValue)
+            if(input.HasValue)
             {
                 return condition(input.Value)
                            ? input
@@ -58,11 +60,11 @@ namespace MaybeMonad
 
         public static Maybe<T> Execute<T>(this Maybe<T> input, Action<T> doAction)
         {
-            if (input.HasValue)
+            if(input.HasValue)
                 doAction.Invoke(input.Value);
 
             return input;
-           
+
         }
 
 
