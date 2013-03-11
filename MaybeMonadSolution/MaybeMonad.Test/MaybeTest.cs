@@ -1,9 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MaybeMonad.Test
 {
 
-
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class MaybeTest
     {
@@ -14,14 +16,8 @@ namespace MaybeMonad.Test
         [TestInitialize]
         public void Antes_de_cada_prueba()
         {
-            var maybeCliente = cliente.ToMaybe();
-
-            if (maybeCliente.HasValue)
-            {
-            //
-            }
-
         }
+
         [TestMethod]
         public void Cuando_usa_tipo_por_referencia()
         {
@@ -92,6 +88,29 @@ namespace MaybeMonad.Test
 
             Assert.IsTrue(result.HasValue);
             Assert.AreEqual(result.Value, "Daniel");
+        }
+
+        [TestMethod]
+        public void Igualando_Dos_Maybe()
+        {
+            var first = Maybe<Cliente>.Nothing;
+            var second = Maybe < Cliente >.Nothing;
+
+            Assert.IsTrue(first == second);
+        }
+        [TestMethod]
+        public void Cuando_la_raiz_no_es_nula_y_se_pide_un_valor_de_salida()
+        {
+            cliente = new Cliente
+            {
+                Nombre = "Daniel"
+            };
+
+            var result = cliente.ToMaybe()
+                .Return(c => c.Nombre, () => "DefaultNombre");
+                
+
+            Assert.AreEqual(result, "Daniel");
         }
 
         [TestMethod]

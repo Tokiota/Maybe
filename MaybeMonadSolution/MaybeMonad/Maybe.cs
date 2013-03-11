@@ -59,6 +59,7 @@
                 return true;
             }
 
+
             return HasValue.Equals(other.HasValue)
                    && EqualityComparer<T>.Default.Equals(Value, other.Value);
         }
